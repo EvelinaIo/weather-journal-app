@@ -10,14 +10,16 @@ const dateOutput = document.getElementById('date');
 const tempOutput = document.getElementById('temp');
 const feelInput = document.getElementById('feelings');
 const content = document.getElementById('content');
+const entry = document.querySelector('.entry');
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+let newDate = `${d.getMonth()+1}|${d.getDate()}|${d.getFullYear()}`;
 
 // Add event listener for Generate
 button.addEventListener('click', performAction);
 
+// Promises for actions after click
 function performAction(event) {
     event.preventDefault()
     // Get user's input
@@ -29,15 +31,16 @@ function performAction(event) {
     // Get data from Open Weather API 
     getWeather (url)
         .then (function(receivedData) {
-            // Add data
+            // Add data to the post route
             const newTemp = receivedData.main.temp;
             const city = receivedData.name;
             const icon = receivedData.weather[0].icon;
-            postData('/addData', { date, city,  newTemp, newFeel })
+            postData('/addData', { date, city, icon, newTemp, newFeel })
         })
         .then (updateUI());
 }
 
+//Async function for openweather API
 async function getWeather (url) {
     const request = await fetch(url)
     try {
@@ -47,10 +50,10 @@ async function getWeather (url) {
     } catch (error) {
         console.log('error', error);
         content.innerHTML = 'Please insert Zip code and your feelings.';
-        // appropriately handle the error
     }
 }
 
+//Async function for post route
 async function postData(url ='', data = {}) {
     const response = await fetch(url, {
         method: 'POST',
@@ -70,14 +73,21 @@ async function postData(url ='', data = {}) {
     }
 }
 
+//Async function for updating UI
 async function updateUI() {
     const response = await fetch('/getData');
     try {
         const updateData = await response.json();
         console.log(updateData);
-        tempOutput.innerHTML = updateData.newTemp;
+        // Update date innerHTML
+        dateOutput.innerHTML = `${updateData.date}, ${updateData.city}`;
+        // Convert fetched temperature to Celcius 
+        const tempConvert = parseFloat(updateData.newTemp)-273.15;
+        // Update temp div innerHTML
+        tempOutput.innerHTML = `<img class="icon" src="http://openweathermap.org/img/wn/${updateData.icon}@2x.png" alt="Weather Icon">${tempConvert.toFixed(0)}\xb0C`;
+        // Update content div innerHTML
         content.innerHTML = updateData.newFeel;
-        dateOutput.innerHTML = `Today is ${updateData.date} and the temperature in ${updateData.city} is`;
+        entry.classList.remove("hide");
     } catch (error) {
         console.log('error', error);
         content.innerHTML = 'Please insert Zip code and your feelings.';
