@@ -1,6 +1,10 @@
 body{
     background:#f23557;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background-image: url(img/clouds.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: stretch;
 }
 
 #app{
@@ -23,10 +27,13 @@ body{
     background: rgba(255, 255, 255);
     padding: 15px 20px;
     min-height: 150px;
-    width: 300px;
+    resize: both;
+    max-width: 500px;
     color: #3b4a6b;
     border-radius: 5px;
     box-shadow: #f0d43a 5px 5px inset;
+    overflow: hidden;
+    word-wrap: break-word
 }
 
 .hide {
