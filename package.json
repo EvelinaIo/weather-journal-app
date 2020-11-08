@@ -1,0 +1,27 @@
+{
+  "name": "Project3_weather-journal-app",
+  "version": "1.0.0",
+  "description": "## Description The project creates an asynchronous web app that uses an external web API and the user's input to gather data and update UI. Uses Node and Express to run on a local server.",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvelinaIo/weather-journal-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EvelinaIo/weather-journal-app/issues"
+  },
+  "homepage": "https://github.com/EvelinaIo/weather-journal-app#readme"
+}
