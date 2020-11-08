@@ -2,7 +2,7 @@
 
 /* Global Variables */
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&appid=9c7393e7971026d0a49347d1c811e1d8';
+const apiKey = '&appid=9c7393e7971026d0a49347d1c811e1d8&units=metric';
 const button = document.getElementById('generate');
 
 // DOM values
@@ -28,6 +28,9 @@ function performAction(event) {
     const date = newDate;
     // Create url
     const url = baseURL + newZip + apiKey;
+    if(!newZip) {
+        alert("Please insert a valid zip code")
+    } else {
     // Get data from Open Weather API 
     getWeather (url)
         .then (function(receivedData) {
@@ -36,8 +39,9 @@ function performAction(event) {
             const city = receivedData.name;
             const icon = receivedData.weather[0].icon;
             postData('/addData', { date, city, icon, newTemp, newFeel })
+            .then (updateUI());
         })
-        .then (updateUI());
+    }
 }
 
 //Async function for openweather API
@@ -81,10 +85,8 @@ async function updateUI() {
         console.log(updateData);
         // Update date innerHTML
         dateOutput.innerHTML = `${updateData.date}, ${updateData.city}`;
-        // Convert fetched temperature to Celcius 
-        const tempConvert = parseFloat(updateData.newTemp)-273.15;
         // Update temp div innerHTML
-        tempOutput.innerHTML = `<img class="icon" src="http://openweathermap.org/img/wn/${updateData.icon}@2x.png" alt="Weather Icon">${tempConvert.toFixed(0)}\xb0C`;
+        tempOutput.innerHTML = `<img class="icon" src="http://openweathermap.org/img/wn/${updateData.icon}@2x.png" alt="Weather Icon">${updateData.newTemp.toFixed(0)}\xb0C`;
         // Update content div innerHTML
         content.innerHTML = updateData.newFeel;
         entry.classList.remove("hide");
