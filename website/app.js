@@ -1,8 +1,7 @@
-//const { mainModule } = require("process");
 
 /* Global Variables */
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&appid=9c7393e7971026d0a49347d1c811e1d8&units=metric';
+const apiId = `&appid=${config.API_KEY}&units=metric`;
 const button = document.getElementById('generate');
 
 // DOM values
@@ -27,7 +26,7 @@ function performAction(event) {
     const newFeel = feelInput.value;
     const date = newDate;
     // Create url
-    const url = baseURL + newZip + apiKey;
+    const url = baseURL + newZip + apiId;
     if(!newZip) {
         alert("Please insert a valid zip code")
     } else {
